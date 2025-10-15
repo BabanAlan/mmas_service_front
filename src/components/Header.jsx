@@ -1,3 +1,6 @@
+import React from "react";
+import "../styles/header.css";
+
 export default function Header({ isHome, onBack }) {
   return (
     <div className="header">

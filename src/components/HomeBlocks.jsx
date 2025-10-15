@@ -1,6 +1,5 @@
-// src/components/HomeBlocks.jsx
 import React from "react";
-// import "./HomeBlocks.css";
+import "../styles/home.css";
 
 export default function HomeBlocks({ onNavigate }) {
   return (

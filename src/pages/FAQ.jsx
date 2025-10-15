@@ -1,3 +1,6 @@
+import React from "react";
+import "../styles/faq.css";
+
 export default function FAQ() {
   const faqs = [
     { id: 1, question: "Как пополнить баланс?", answer: "Нажмите кнопку 'Пополнить баланс' на главной странице и следуйте инструкциям." },

@@ -1,3 +1,6 @@
+import React from "react";
+import "../styles/services.css";
+
 const services = [
   {
     id: 1,

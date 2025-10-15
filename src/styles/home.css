@@ -1,0 +1,25 @@
+.home-blocks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.home-block {
+  flex: 1 1 calc(50% - 10px);
+  height: 120px;
+  background-color: #3b82f6;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.home-block:hover {
+  background-color: #2563eb;
+}

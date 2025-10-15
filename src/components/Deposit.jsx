@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "../styles/deposit.css";
 
 export default function Deposit({ onDeposit }) {
   const [showModal, setShowModal] = useState(false);

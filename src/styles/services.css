@@ -1,0 +1,44 @@
+.services {
+  position: relative;
+  margin-top: 40px;
+}
+
+.service-card {
+  border: 1px solid #ddd;
+  border-radius: 15px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.service-card h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #2563eb;
+}
+
+.service-card p {
+  margin: 5px 0 10px 0;
+  color: #4b5563;
+  font-size: 14px;
+}
+
+.service-card .bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.service-card button {
+  padding: 8px 15px;
+  border-radius: 10px;
+  border: none;
+  background-color: #3b82f6;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.service-card button:hover {
+  background-color: #2563eb;
+}

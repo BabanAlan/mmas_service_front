@@ -6,7 +6,8 @@ import HomeBlocks from "./components/HomeBlocks.jsx";
 import Services from "./pages/Services.jsx";
 import History from "./pages/History.jsx";
 import FAQ from "./pages/FAQ.jsx";
-import "./index.css";
+import "./styles/main.css";
+import "./styles/animations.css";
 
 export default function App() {
   const [balance, setBalance] = useState(1200);
