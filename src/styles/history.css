@@ -79,13 +79,13 @@
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  z-index: 200;
+  z-index: 5;
 }
 
 .bottom-sheet {
   width: 100%;
   max-width: 500px;
-  height: 90%;
+  height: 85%;
   background: #fff;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
