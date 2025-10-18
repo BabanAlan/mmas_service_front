@@ -1,8 +1,6 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-// import './index.css'
-import App from './App.jsx'
-
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import App from './App.jsx';
 import { init, miniApp } from '@telegram-apps/sdk';
 
 const initializeTelegramSDK = async () => {
@@ -14,10 +12,15 @@ const initializeTelegramSDK = async () => {
       console.log('Mini App ready');
     }
 
+    // Отключаем вертикальные свайпы, чтобы приложение не сворачивалось
+    if (window.Telegram?.WebApp?.disableVerticalSwipes) {
+      window.Telegram.WebApp.disableVerticalSwipes();
+      console.log('Vertical swipes disabled');
+    }
+
   } catch (error) {
     console.error('Initialize error:', error);
   }
-  window.disableVerticalSwipes;
 };
 
 initializeTelegramSDK();
@@ -26,4 +29,4 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <App />
   </StrictMode>,
-)
+);
