@@ -1,7 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.jsx';
-import { init, miniApp } from '@telegram-apps/sdk';
+import { init, miniApp, mainButton } from '@telegram-apps/sdk';
 
 const initializeTelegramSDK = async () => {
   if (!window.Telegram?.WebApp) {
@@ -16,6 +16,10 @@ const initializeTelegramSDK = async () => {
       await miniApp.ready();
       console.log("✅ Mini App ready");
 
+      if (mainButton.mount.isAvailable()) {
+  mainButton.mount();
+  mainButton.isMounted(); }
+
       // Отключаем свайп и системную кнопку
       if (window.Telegram.WebApp?.disableSwipeBack) {
         try {window.Telegram.WebApp.disableSwipeBack(true);}
@@ -26,7 +30,7 @@ const initializeTelegramSDK = async () => {
         try {window.Telegram.WebApp.BackButton.hide();}
         catch(e){console.error(e)}
       }
-      
+
       if (window.Telegram.WebApp?.MainButton?.hide) {
         try{window.Telegram.WebApp.MainButton.hide();}
         catch(e){console.error(e)}
