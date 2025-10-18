@@ -1,8 +1,10 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.jsx';
-import { init, miniApp } from '@telegram-apps/sdk-react';
+import { init, miniApp, initBackButton } from '@telegram-apps/sdk';
 
+const [backButton] = initBackButton();
+backButton.hide();
 const initializeTelegramSDK = async () => {
   if (!window.Telegram?.WebApp) {
     console.warn("⚠️ Telegram WebApp API не найден. Запущено вне Telegram.");
@@ -18,7 +20,7 @@ const initializeTelegramSDK = async () => {
       
 
       // Отключаем свайп и системную кнопку
-      
+      backButton.hide();
         try {
           window.Telegram.WebApp.disableVerticalSwipes();
         }
