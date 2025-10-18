@@ -9,9 +9,22 @@ import FAQ from "./pages/FAQ.jsx";
 import "./styles/main.css";
 import "./styles/animations.css";
 
-export default function App() {
+export default function App({ tgInitialized }) {
   const [balance, setBalance] = useState(1400);
-  const [currentPage, setCurrentPage] = useState("home"); // home, services, history, faq
+  const [currentPage, setCurrentPage] = useState("home");
+  const [tgReady, setTgReady] = useState(false);
+
+  useEffect(() => {
+    // Проверяем статус инициализации из пропсов
+    if (tgInitialized) {
+      setTgReady(true);
+    } else {
+      // Дополнительная проверка на случай, если WebApp уже доступен
+      if (window.Telegram?.WebApp) {
+        setTgReady(true);
+      }
+    }
+  }, [tgInitialized]);
 
   const handleDeposit = (amount) => setBalance(balance + Number(amount));
 
@@ -29,28 +42,35 @@ export default function App() {
       case "services": return <Services onPurchase={handlePurchase} />;
       case "history": return <History />;
       case "faq": return <FAQ />;
+      default: return null;
     }
   };
 
-  const [tgReady, setTgReady] = useState(false);
-
-  useEffect(() => {
-    if (window.Telegram?.WebApp) {
-      console.log("✅ WebApp API доступен");
-      setTgReady(true);
-    } else {
-      console.warn("⚠️ WebApp API не найден");
-    }
-  }, []);
-
-  return (
-    <div style={{ padding: 20 }}>
-      <h1>TG Mini App</h1>
-      {tgReady ? (
-        <p>Telegram WebApp API доступен ✅</p>
-      ) : (
+  // Если Telegram не готов, показываем заглушку
+  if (!tgReady) {
+    return (
+      <div style={{ padding: 20, textAlign: 'center' }}>
+        <h1>TG Mini App</h1>
         <p>Запустите через Telegram ⚠️</p>
-      )}
+      </div>
+    );
+  }
+
+  // Основной интерфейс когда Telegram готов
+  return (
+    <div className="app-container">
+      <Header
+        isHome={currentPage === "home"}
+        onBack={() => setCurrentPage("home")}
+      />
+      <Balance balance={balance} />
+      <Deposit onDeposit={handleDeposit} />
+      <HomeBlocks onNavigate={setCurrentPage} />
+
+      {/* Стек страниц, наезжающий поверх */}
+      <div className={`page-stack ${currentPage !== "home" ? "page-active" : ""}`}>
+        {renderPage()}
+      </div>
     </div>
   );
 }
