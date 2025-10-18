@@ -47,14 +47,14 @@ export default function App({ tgInitialized }) {
   };
 
   // Если Telegram не готов, показываем заглушку
-  // if (!tgReady) {
-  //   return (
-  //     <div style={{ padding: 20, textAlign: 'center' }}>
-  //       <h1>TG Mini App</h1>
-  //       <p>Запустите через Telegram ⚠️</p>
-  //     </div>
-  //   );
-  // }
+  if (!tgReady) {
+    return (
+      <div style={{ padding: 20, textAlign: 'center' }}>
+        <h1>TG Mini App</h1>
+        <p>Запустите через Telegram ⚠️</p>
+      </div>
+    );
+  }
 
   // Основной интерфейс когда Telegram готов
   return (
