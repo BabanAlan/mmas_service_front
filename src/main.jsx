@@ -26,6 +26,7 @@ const initializeTelegramSDK = async () => {
       // Отключаем свайп вниз
       try {
         miniApp.disableVerticalSwipes();
+        console.warn("disableVerticalSwipes");
       } catch (e) {
         console.warn("disableVerticalSwipes() не сработало:", e);
       }
