@@ -15,14 +15,11 @@ const initializeTelegramSDK = async () => {
     if (miniApp.ready.isAvailable()) {
       await miniApp.ready();
       console.log("✅ Mini App ready");
-
-      if (mainButton.mount.isAvailable()) {
-  mainButton.mount();
-  mainButton.isMounted(); }
+      
 
       // Отключаем свайп и системную кнопку
       if (window.Telegram.WebApp?.disableSwipeBack) {
-        try {window.Telegram.WebApp.disableSwipeBack(true);}
+        try {window.Telegram.WebApp.disableVerticalSwipes();}
         catch(e){console.error(e)}
       }
 
