@@ -8,7 +8,7 @@ export default function HomeBlocks({ onNavigate }) {
         Услуги
       </button>
       <button className="home-block" onClick={() => onNavigate("history")}>
-        История операций
+        История
       </button>
       <button className="home-block" onClick={() => onNavigate("faq")}>
         Помощь

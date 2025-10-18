@@ -21,29 +21,27 @@ export default function Header({ isHome, onBack }) {
   const direction = isHome ? "left-to-right" : "right-to-left";
 
   return (
-    <div className="header">
-      <button className="header-btn" onClick={onBack}>
-        <div className="icon-wrapper">
-          {animate && (
-            <span className={`icon slide-out-${direction}`}>
-              {prevHome ? <CgClose /> : <CgChevronLeft />}
-            </span>
-          )}
-          <span className={`icon ${animate ? "hidden" : ""} slide-in-${direction}`}>
-            {isHome ? <CgClose /> : <CgChevronLeft />}
+    <button className="header-btn" onClick={onBack}>
+      <div className="icon-wrapper">
+        {animate && (
+          <span className={`icon slide-out-${direction}`}>
+            {prevHome ? <CgClose /> : <CgChevronLeft />}
           </span>
-        </div>
-        <div className="text-wrapper">
-          {animate && (
-            <span className={`text slide-out-${direction}`}>
-              {prevHome ? "Закрыть" : "Назад"}
-            </span>
-          )}
-          <span className={`text ${animate ? "hidden" : ""} slide-in-${direction}`}>
-            {isHome ? "Закрыть" : "Назад"}
+        )}
+        <span className={`icon ${animate ? "hidden" : ""} slide-in-${direction}`}>
+          {isHome ? <CgClose /> : <CgChevronLeft />}
+        </span>
+      </div>
+      <div className="text-wrapper">
+        {animate && (
+          <span className={`text slide-out-${direction}`}>
+            {prevHome ? "Закрыть" : "Назад"}
           </span>
-        </div>
-      </button>
-    </div>
+        )}
+        <span className={`text ${animate ? "hidden" : ""} slide-in-${direction}`}>
+          {isHome ? "Закрыть" : "Назад"}
+        </span>
+      </div>
+    </button>
   );
 }

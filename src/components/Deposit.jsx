@@ -3,42 +3,38 @@ import "../styles/deposit.css";
 
 export default function Deposit({ onDeposit }) {
   const [showModal, setShowModal] = useState(false);
+  const [closing, setClosing] = useState(false); // состояние закрытия
   const [amount, setAmount] = useState("");
 
   const handleOpen = () => setShowModal(true);
+
   const handleClose = () => {
-    setShowModal(false);
-    setAmount("");
+    setClosing(true); // запускаем анимацию закрытия
+    setTimeout(() => {
+      setShowModal(false);
+      setClosing(false);
+      setAmount("");
+    }, 300); // время совпадает с duration анимации CSS
   };
 
   const handlePayment = () => {
     const numericAmount = Number(amount);
-
     if (!numericAmount || numericAmount <= 0) {
       alert("Введите сумму больше 0 ₽");
       return;
     }
-
-    // Заглушка для YooKassa
     alert(`Заглушка: перевод на YooKassa ${numericAmount} ₽`);
-
     onDeposit(numericAmount);
     handleClose();
   };
 
-  // Разрешаем вводить только цифры
   const handleInputChange = (e) => {
     const value = e.target.value;
-    if (/^\d*$/.test(value)) { // только цифры
-      setAmount(value);
-    }
+    if (/^\d*$/.test(value)) setAmount(value);
   };
 
-  // Запрещаем ввод "-" и других символов через клавиатуру
   const handleKeyDown = (e) => {
-    if (e.key === "-" || e.key === "e" || e.key === "+" || e.key === ".") {
-      e.preventDefault();
-    }
+    if (["-", "+", "e", "."].includes(e.key)) e.preventDefault();
   };
 
   return (
@@ -46,8 +42,14 @@ export default function Deposit({ onDeposit }) {
       <button onClick={handleOpen}>Пополнить баланс</button>
 
       {showModal && (
-        <div className="modal-overlay" onClick={handleClose}>
-          <div className="modal" onClick={(e) => e.stopPropagation()}>
+        <div
+          className={`modal-overlay ${closing ? "closing" : ""}`}
+          onClick={handleClose}
+        >
+          <div
+            className={`modal ${closing ? "modal-closing" : ""}`}
+            onClick={(e) => e.stopPropagation()}
+          >
             <h3>Введите сумму пополнения</h3>
             <input
               type="text"
