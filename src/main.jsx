@@ -12,24 +12,26 @@ const initializeTelegramSDK = async () => {
   try {
     await init();
 
-    // if (miniApp.ready.isAvailable()) {
-    //   await miniApp.ready();
-    //   console.log("✅ Mini App ready");
+    if (miniApp.ready.isAvailable()) {
+      await miniApp.ready();
+      console.log("✅ Mini App ready");
 
       // Отключаем свайп и системную кнопку
       if (window.Telegram.WebApp?.disableSwipeBack) {
-        window.Telegram.WebApp.disableSwipeBack(true); // true — запрещает сворачивание свайпом
+        try {window.Telegram.WebApp.disableSwipeBack(true);}
+        catch(e){console.error(e)}
       }
 
       if (window.Telegram.WebApp?.BackButton?.hide) {
-        window.Telegram.WebApp.BackButton.hide(); // прячем кнопку назад/закрыть
+        try {window.Telegram.WebApp.BackButton.hide();}
+        catch(e){console.error(e)}
       }
-
-      // Дополнительно можно спрятать кнопку Close (для новых версий WebApp)
+      
       if (window.Telegram.WebApp?.MainButton?.hide) {
-        window.Telegram.WebApp.MainButton.hide();
+        try{window.Telegram.WebApp.MainButton.hide();}
+        catch(e){console.error(e)}
       }
-    // }
+    }
 
   } catch (error) {
     console.error("Initialize error:", error);
