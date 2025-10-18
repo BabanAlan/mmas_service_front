@@ -1,7 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.jsx';
-import { init, miniApp, mainButton } from '@telegram-apps/sdk';
+import { init, miniApp, mainButton } from '@telegram-apps/sdk-react';
 
 const initializeTelegramSDK = async () => {
   if (!window.Telegram?.WebApp) {
