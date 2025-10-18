@@ -18,14 +18,14 @@ const initializeTelegramSDK = async () => {
 
       // Скрываем BackButton
       try {
-        miniApp.BackButton.hide();
+        window.Telegram.WebApp.BackButton.hide();
       } catch (e) {
         console.warn("BackButton.hide() не сработало:", e);
       }
 
       // Отключаем свайп вниз
       try {
-        miniApp.disableVerticalSwipes();
+        window.Telegram.WebApp.isVerticalSwipesEnabled = true;
         console.warn("disableVerticalSwipes");
       } catch (e) {
         console.warn("disableVerticalSwipes() не сработало:", e);
