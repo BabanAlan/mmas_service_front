@@ -10,7 +10,7 @@ import "./styles/main.css";
 import "./styles/animations.css";
 
 export default function App() {
-  const [balance, setBalance] = useState(1300);
+  const [balance, setBalance] = useState(1400);
   const [currentPage, setCurrentPage] = useState("home"); // home, services, history, faq
 
   const handleDeposit = (amount) => setBalance(balance + Number(amount));
