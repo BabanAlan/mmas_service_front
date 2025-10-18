@@ -1,25 +1,29 @@
 .home-blocks {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 20px;
+  gap: 12px;
+  margin-top: 25px;
 }
 
 .home-block {
   flex: 1 1 calc(50% - 10px);
   height: 120px;
-  background-color: #3b82f6;
-  color: white;
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #1e3a8a;
   font-size: 18px;
   font-weight: bold;
-  border: none;
-  border-radius: 15px;
-  cursor: pointer;
+  border-radius: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
 }
 
 .home-block:hover {
-  background-color: #2563eb;
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
 }

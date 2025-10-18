@@ -2,25 +2,112 @@
   margin-bottom: 20px;
 }
 
-.deposit input {
-  width: calc(100% - 20px);
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-}
-
 .deposit button {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
+  margin-top: -10px;
   border: none;
-  border-radius: 10px;
-  background-color: #10b981;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #3b82f6, #60a5fa);
   color: white;
   font-weight: bold;
   cursor: pointer;
+  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+  transition: all 0.3s ease;
 }
 
 .deposit button:hover {
-  background-color: #059669;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(59, 130, 246, 0.4);
+}
+
+/* === Модальное окно === */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(240, 243, 248, 0.5);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease forwards;
+  z-index: 1000;
+  transition: opacity 0.3s ease;
+}
+
+.modal-overlay.closing {
+  animation: fadeOut 0.3s ease forwards;
+}
+
+.modal {
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(25px);
+  border-radius: 25px;
+  padding: 25px;
+  width: 90%;
+  max-width: 360px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  animation: slideUp 0.3s ease forwards;
+  text-align: center;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Когда модалка закрывается */
+.modal-closing {
+  animation: slideDown 0.3s ease forwards;
+}
+
+.modal h3 {
+  margin-top: 0;
+  color: #1e3a8a;
+  font-weight: 600;
+}
+
+.modal input {
+  width: 100%;
+  padding: 12px;
+  margin: 15px 0;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.6);
+  color: #1e3a8a;
+  font-size: 16px;
+  text-align: center;
+  outline: none;
+}
+
+.modal input::placeholder {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.modal button {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #10b981, #34d399);
+  color: white;
+  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
+}
+
+/* === Анимации === */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideDown {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(30px); opacity: 0; }
 }

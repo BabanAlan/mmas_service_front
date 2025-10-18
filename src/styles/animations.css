@@ -16,3 +16,18 @@
 .page-stack.page-active {
   transform: translateX(0);
 }
+
+/* Универсальный эффект нажатия для интерактивных элементов */
+button, .home-block, .service-card, .deposit button {
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+/* Сжатие при удержании нажатия */
+button:active,
+.home-block:active,
+.service-card:active,
+.deposit button:active, 
+.history-card:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
