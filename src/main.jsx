@@ -1,9 +1,8 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.jsx';
-import { init, miniApp, initBackButton } from '@telegram-apps/sdk';
+import { init, miniApp, backButton } from '@telegram-apps/sdk';
 
-const [backButton] = initBackButton();
 backButton.hide();
 const initializeTelegramSDK = async () => {
   if (!window.Telegram?.WebApp) {
