@@ -12,9 +12,9 @@ const initializeTelegramSDK = async () => {
   try {
     await init();
 
-    if (miniApp.ready.isAvailable()) {
-      await miniApp.ready();
-      console.log("✅ Mini App ready");
+    // if (miniApp.ready.isAvailable()) {
+    //   await miniApp.ready();
+    //   console.log("✅ Mini App ready");
 
       // Отключаем свайп и системную кнопку
       if (window.Telegram.WebApp?.disableSwipeBack) {
@@ -29,7 +29,7 @@ const initializeTelegramSDK = async () => {
       if (window.Telegram.WebApp?.MainButton?.hide) {
         window.Telegram.WebApp.MainButton.hide();
       }
-    }
+    // }
 
   } catch (error) {
     console.error("Initialize error:", error);
