@@ -16,21 +16,28 @@ const initializeTelegramSDK = async () => {
       await miniApp.ready();
       console.log("✅ Mini App ready");
 
-      // Отключаем свайп и системную кнопку
-      if (window.Telegram.WebApp?.disableSwipeBack) {
-        window.Telegram.WebApp.disableSwipeBack(true); // true — запрещает сворачивание свайпом
+      // Скрываем BackButton
+      try {
+        miniApp.BackButton.hide();
+      } catch (e) {
+        console.warn("BackButton.hide() не сработало:", e);
       }
 
-      if (window.Telegram.WebApp?.BackButton?.hide) {
-        window.Telegram.WebApp.BackButton.hide(); // прячем кнопку назад/закрыть
+      // Отключаем свайп вниз (если SDK поддерживает)
+      try {
+        miniApp.disableVerticalSwipes();
+      } catch (e) {
+        console.warn("disableVerticalSwipes() не сработало:", e);
       }
 
-      // Дополнительно можно спрятать кнопку Close (для новых версий WebApp)
-      if (window.Telegram.WebApp?.MainButton?.hide) {
-        window.Telegram.WebApp.MainButton.hide();
+      // Важно: Telegram WebApp может сам игнорировать запрет свайпа в некоторых версиях
+      // На iOS чаще всего нельзя полностью убрать свайп вниз
+      if (window.Telegram.WebApp) {
+        try {
+          window.Telegram.WebApp.disableSwipeBack?.(true);
+        } catch {}
       }
     }
-
   } catch (error) {
     console.error("Initialize error:", error);
   }
