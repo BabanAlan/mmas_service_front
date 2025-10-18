@@ -11,16 +11,6 @@
       }
       catch(e){console.error(e)}
 
-      try {
-        window.Telegram.WebApp.BackButton.hide();
-      }
-      catch(e){console.error(e)}
-
-      try{
-        window.Telegram.WebApp.MainButton.hide();
-      }
-      catch(e){console.error(e)}
-
       document.addEventListener('DOMContentLoaded', function(){
         Telegram.WebApp.disableVerticalSwipes();
         Telegram.WebApp.BackButton.hide();

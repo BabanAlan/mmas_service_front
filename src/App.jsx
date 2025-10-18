@@ -15,16 +15,33 @@ export default function App({ tgInitialized }) {
   const [tgReady, setTgReady] = useState(false);
 
   useEffect(() => {
-    // Проверяем статус инициализации из пропсов
-    if (tgInitialized) {
+    // Проверяем Telegram WebApp
+    const tg = window.Telegram?.WebApp;
+    if (tg) {
+      tg.ready();
       setTgReady(true);
-    } else {
-      // Дополнительная проверка на случай, если WebApp уже доступен
-      if (window.Telegram?.WebApp) {
-        setTgReady(true);
+
+      // Если поддерживается BackButton API — подписываемся
+      const backButton = tg.BackButton;
+
+      if (backButton) {
+        // Назначаем обработчик
+        backButton.onClick(() => {
+          setCurrentPage("home");
+          backButton.hide();
+        });
       }
+
+      // Следим за изменением страницы
+      if (currentPage === "home") {
+        backButton?.hide();
+      } else {
+        backButton?.show();
+      }
+    } else {
+      console.warn("⚠️ Telegram WebApp API не найден");
     }
-  }, [tgInitialized]);
+  }, [tgInitialized, currentPage]);
 
   const handleDeposit = (amount) => setBalance(balance + Number(amount));
 
@@ -38,25 +55,27 @@ export default function App({ tgInitialized }) {
   };
 
   const renderPage = () => {
-    switch(currentPage) {
-      case "services": return <Services onPurchase={handlePurchase} />;
-      case "history": return <History />;
-      case "faq": return <FAQ />;
-      default: return null;
+    switch (currentPage) {
+      case "services":
+        return <Services onPurchase={handlePurchase} />;
+      case "history":
+        return <History />;
+      case "faq":
+        return <FAQ />;
+      default:
+        return null;
     }
   };
 
-  // Если Telegram не готов, показываем заглушку
   if (!tgReady) {
     return (
-      <div style={{ padding: 20, textAlign: 'center' }}>
+      <div style={{ padding: 20, textAlign: "center" }}>
         <h1>TG Mini App</h1>
         <p>Запустите через Telegram ⚠️</p>
       </div>
     );
   }
 
-  // Основной интерфейс когда Telegram готов
   return (
     <div className="app-container">
       <Header
@@ -67,11 +86,9 @@ export default function App({ tgInitialized }) {
       <Deposit onDeposit={handleDeposit} />
       <HomeBlocks onNavigate={setCurrentPage} />
 
-      {/* Стек страниц, наезжающий поверх */}
       <div className={`page-stack ${currentPage !== "home" ? "page-active" : ""}`}>
         {renderPage()}
       </div>
     </div>
   );
 }
-
