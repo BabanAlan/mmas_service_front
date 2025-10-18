@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Header from "./components/Header.jsx";
+// import Header from "./components/Header.jsx";
 import Balance from "./components/Balance.jsx";
 import Deposit from "./components/Deposit.jsx";
 import HomeBlocks from "./components/HomeBlocks.jsx";
@@ -67,21 +67,21 @@ export default function App({ tgInitialized }) {
     }
   };
 
-  if (!tgReady) {
-    return (
-      <div style={{ padding: 20, textAlign: "center" }}>
-        <h1>TG Mini App</h1>
-        <p>Запустите через Telegram ⚠️</p>
-      </div>
-    );
-  }
+  // if (!tgReady) {
+  //   return (
+  //     <div style={{ padding: 20, textAlign: "center" }}>
+  //       <h1>TG Mini App</h1>
+  //       <p>Запустите через Telegram ⚠️</p>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="app-container">
-      <Header
+      {/* <Header
         isHome={currentPage === "home"}
         onBack={() => setCurrentPage("home")}
-      />
+      /> */}
       <Balance balance={balance} />
       <Deposit onDeposit={handleDeposit} />
       <HomeBlocks onNavigate={setCurrentPage} />
