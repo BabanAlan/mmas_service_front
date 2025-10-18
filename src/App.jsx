@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "./components/Header.jsx";
 import Balance from "./components/Balance.jsx";
 import Deposit from "./components/Deposit.jsx";
@@ -32,21 +32,44 @@ export default function App() {
     }
   };
 
+  const [tgReady, setTgReady] = useState(false);
+
+  useEffect(() => {
+    if (window.Telegram?.WebApp) {
+      console.log("✅ WebApp API доступен");
+      setTgReady(true);
+    } else {
+      console.warn("⚠️ WebApp API не найден");
+    }
+  }, []);
+
   return (
-    <div className="app-container">
-      <Header
-        isHome={currentPage === "home"}
-        onBack={() => setCurrentPage("home")}
-      />
-      <Balance balance={balance} />
-      <Deposit onDeposit={handleDeposit} />
-      <HomeBlocks onNavigate={setCurrentPage} />
-
-      {/* Стек страниц, наезжающий поверх */}
-      <div className={`page-stack ${currentPage !== "home" ? "page-active" : ""}`}>
-        {renderPage()}
-      </div>
-
+    <div style={{ padding: 20 }}>
+      <h1>TG Mini App</h1>
+      {tgReady ? (
+        <p>Telegram WebApp API доступен ✅</p>
+      ) : (
+        <p>Запустите через Telegram ⚠️</p>
+      )}
     </div>
   );
 }
+
+//   return (
+//     <div className="app-container">
+//       <Header
+//         isHome={currentPage === "home"}
+//         onBack={() => setCurrentPage("home")}
+//       />
+//       <Balance balance={balance} />
+//       <Deposit onDeposit={handleDeposit} />
+//       <HomeBlocks onNavigate={setCurrentPage} />
+
+//       {/* Стек страниц, наезжающий поверх */}
+//       <div className={`page-stack ${currentPage !== "home" ? "page-active" : ""}`}>
+//         {renderPage()}
+//       </div>
+
+//     </div>
+//   );
+// }
