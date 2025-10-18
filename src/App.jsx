@@ -47,14 +47,14 @@ export default function App({ tgInitialized }) {
   };
 
   // Если Telegram не готов, показываем заглушку
-  if (!tgReady) {
-    return (
-      <div style={{ padding: 20, textAlign: 'center' }}>
-        <h1>TG Mini App</h1>
-        <p>Запустите через Telegram ⚠️</p>
-      </div>
-    );
-  }
+  // if (!tgReady) {
+  //   return (
+  //     <div style={{ padding: 20, textAlign: 'center' }}>
+  //       <h1>TG Mini App</h1>
+  //       <p>Запустите через Telegram ⚠️</p>
+  //     </div>
+  //   );
+  // }
 
   // Основной интерфейс когда Telegram готов
   return (
@@ -75,21 +75,3 @@ export default function App({ tgInitialized }) {
   );
 }
 
-//   return (
-//     <div className="app-container">
-//       <Header
-//         isHome={currentPage === "home"}
-//         onBack={() => setCurrentPage("home")}
-//       />
-//       <Balance balance={balance} />
-//       <Deposit onDeposit={handleDeposit} />
-//       <HomeBlocks onNavigate={setCurrentPage} />
-
-//       {/* Стек страниц, наезжающий поверх */}
-//       <div className={`page-stack ${currentPage !== "home" ? "page-active" : ""}`}>
-//         {renderPage()}
-//       </div>
-
-//     </div>
-//   );
-// }
