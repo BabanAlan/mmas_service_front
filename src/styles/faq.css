@@ -4,20 +4,29 @@
   margin: 0 auto;
 }
 
+/* ====== Карточка вопроса ====== */
 .faq-item {
   margin-bottom: 15px;
-  background-color: #f8fafc;
   border-radius: 12px;
   padding: 12px 16px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: transform 0.1s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 
 .faq-item:hover {
-  background-color: #eef2f7;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(0,0,0,0.12);
 }
 
+.faq-item:active {
+  transform: scale(0.97);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+/* ====== Вопрос ====== */
 .faq-question {
   display: flex;
   justify-content: space-between;
@@ -26,31 +35,31 @@
 
 .faq-question strong {
   font-size: 16px;
-  color: #14213D;
+  color: #1e3a8a; /* основной синий */
 }
 
+/* Стрелка */
 .arrow {
   font-size: 20px;
   display: inline-block;
-  transition: transform 0.3s ease;
-  color: #2563eb; /* цвет стрелки */
-  /* margin-left: 8px; */
+  transition: transform 0.3s ease, color 0.3s ease;
+  color: #2563eb;
 }
 
 .arrow.rotated {
-  transform: rotate(90deg); /* поворот при открытии */
+  transform: rotate(90deg);
 }
 
-
-/* Обертка для плавной анимации */
+/* ====== Ответ ====== */
 .faq-answer-wrapper {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.4s ease;
+  margin-top: 8px;
 }
 
 .faq-answer {
-  margin-top: 10px;
   color: #4b5563;
   line-height: 1.5;
+  font-size: 14px;
 }
