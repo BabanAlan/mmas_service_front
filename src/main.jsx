@@ -6,7 +6,7 @@ import { init, miniApp } from '@telegram-apps/sdk';
 const initializeTelegramSDK = async () => {
   if (!window.Telegram?.WebApp) {
     console.warn("⚠️ Telegram WebApp API не найден. Запущено вне Telegram.");
-    return false;
+    return;
   }
 
   try {
@@ -16,39 +16,30 @@ const initializeTelegramSDK = async () => {
       await miniApp.ready();
       console.log("✅ Mini App ready");
 
-      // Скрываем BackButton
-      try {
-        window.Telegram.WebApp.BackButton.hide();
-      } catch (e) {
-        console.warn("BackButton.hide() не сработало:", e);
+      // Отключаем свайп и системную кнопку
+      if (window.Telegram.WebApp?.disableSwipeBack) {
+        window.Telegram.WebApp.disableSwipeBack(true); // true — запрещает сворачивание свайпом
       }
 
-      // Отключаем свайп вниз
-      try {
-        window.Telegram.WebApp.isVerticalSwipesEnabled = true;
-        console.warn("disableVerticalSwipes");
-      } catch (e) {
-        console.warn("disableVerticalSwipes() не сработало:", e);
+      if (window.Telegram.WebApp?.BackButton?.hide) {
+        window.Telegram.WebApp.BackButton.hide(); // прячем кнопку назад/закрыть
       }
 
-      if (window.Telegram.WebApp) {
-        try {
-          window.Telegram.WebApp.disableSwipeBack?.(true);
-        } catch {}
+      // Дополнительно можно спрятать кнопку Close (для новых версий WebApp)
+      if (window.Telegram.WebApp?.MainButton?.hide) {
+        window.Telegram.WebApp.MainButton.hide();
       }
     }
-    return true;
+
   } catch (error) {
     console.error("Initialize error:", error);
-    return false;
   }
 };
 
-// Инициализируем перед рендерингом
-initializeTelegramSDK().then((tgInitialized) => {
-  createRoot(document.getElementById('root')).render(
-    <StrictMode>
-      <App tgInitialized={tgInitialized} />
-    </StrictMode>
-  );
-});
+initializeTelegramSDK();
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <App />
+  </StrictMode>
+);
