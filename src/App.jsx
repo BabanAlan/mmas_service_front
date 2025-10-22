@@ -49,11 +49,9 @@ export default function App({ tgInitialized }) {
 
     const handleTouchStart = (e) => {
       if (currentPage === "home") return;
-      // только свайп от левого края
       if (e.touches[0].clientX > 40) return;
       startX.current = e.touches[0].clientX;
       isSwiping.current = true;
-      // убираем переходы, чтобы движение было мгновенным
       page.style.transition = "none";
       home.style.transition = "none";
     };
@@ -66,54 +64,44 @@ export default function App({ tgInitialized }) {
       translateX.current = deltaX;
       const progress = Math.min(deltaX / window.innerWidth, 1);
 
-      // движение и блюр страницы (inline-стили на время свайпа)
       page.style.transform = `translateX(${deltaX}px)`;
-      page.style.filter = `blur(${progress * 8}px)`; // max 8px
+      page.style.filter = `blur(${progress * 8}px)`;
 
-      // home проявляется: уменьшаем блюр и увеличиваем opacity
-      // NOTE: эти inline-стили временные — после окончания свайпа они уберутся
-      home.style.filter = `blur(${8 - progress * 8}px)`; // от 8 → 0
-      home.style.opacity = `${0.3 + progress * 0.7}`; // от 0.3 → 1
+      home.style.filter = `blur(${8 - progress * 8}px)`;
+      home.style.opacity = `${0.3 + progress * 0.7}`;
     };
 
     const handleTouchEnd = () => {
       if (!isSwiping.current) return;
 
-      // восстанавливаем переходы для анимации возврата/перехода
       page.style.transition = "transform 0.25s ease, filter 0.25s ease";
       home.style.transition = "filter 0.25s ease, opacity 0.25s ease";
 
+      const handleTransitionEnd = () => {
+        setCurrentPage("home");
+        page.style.transform = "";
+        page.style.filter = "";
+        home.style.filter = "";
+        home.style.opacity = "";
+        page.removeEventListener("transitionend", handleTransitionEnd);
+      };
+
       if (translateX.current > 100) {
-        // успешный свайп — анимируем уход и затем переключаем страницу
+        // успешный свайп — анимируем уход
         page.style.transform = "translateX(100%)";
         page.style.filter = "blur(8px)";
         home.style.filter = "blur(0)";
         home.style.opacity = "1";
-        setTimeout(() => {
-          // переключаем на home — класс .blurred будет убран (см. render)
-          setCurrentPage("home");
 
-          // чистим inline-стили — состояние задастся CSS-классом
-          page.style.transform = "";
-          page.style.filter = "";
-          home.style.filter = "";
-          home.style.opacity = "";
-        }, 200);
+        page.addEventListener("transitionend", handleTransitionEnd);
       } else {
-        // недостаточный свайп — откатываем
+        // недостаточный свайп — откат
         page.style.transform = "translateX(0)";
         page.style.filter = "blur(0)";
-        // вернём home в состояние "размыто" (если мы на внутренней странице)
         home.style.filter = "blur(8px)";
         home.style.opacity = "0.3";
 
-        // через анимацию вернём классы/стили в исходное состояние
-        setTimeout(() => {
-          page.style.transform = "";
-          page.style.filter = "";
-          home.style.filter = "";
-          home.style.opacity = "";
-        }, 250);
+        page.addEventListener("transitionend", handleTransitionEnd);
       }
 
       isSwiping.current = false;
@@ -157,7 +145,7 @@ export default function App({ tgInitialized }) {
 
   return (
     <div className="app-container">
-      {/* Home-layer: класс 'blurred' ставится только если мы НЕ на home */}
+      {/* Home-layer */}
       <div
         ref={homeRef}
         className={`home-layer ${currentPage !== "home" ? "blurred" : ""}`}
