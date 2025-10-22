@@ -1,9 +1,13 @@
 .services {
   position: relative;
-  margin-top: 40px;
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+.services h2 {
+  margin-bottom: 20px;
+  font-weight: 600;
 }
 
 /* Карточка услуги */
