@@ -77,21 +77,21 @@ export default function App({ tgInitialized }) {
       page.style.transition = "transform 0.25s ease, filter 0.25s ease";
       home.style.transition = "filter 0.25s ease, opacity 0.25s ease";
 
-      const handleTransitionEnd = () => {
-        setCurrentPage("home");
-        page.style.transform = "";
-        page.style.filter = "";
-        home.style.filter = "";
-        home.style.opacity = "";
-        page.removeEventListener("transitionend", handleTransitionEnd);
-      };
-
       if (translateX.current > 100) {
         // успешный свайп — анимируем уход
         page.style.transform = "translateX(100%)";
         page.style.filter = "blur(8px)";
         home.style.filter = "blur(0)";
         home.style.opacity = "1";
+
+        const handleTransitionEnd = () => {
+          setCurrentPage("home");
+          page.style.transform = "";
+          page.style.filter = "";
+          home.style.filter = "";
+          home.style.opacity = "";
+          page.removeEventListener("transitionend", handleTransitionEnd);
+        };
 
         page.addEventListener("transitionend", handleTransitionEnd);
       } else {
@@ -101,12 +101,22 @@ export default function App({ tgInitialized }) {
         home.style.filter = "blur(8px)";
         home.style.opacity = "0.3";
 
+        // нет setCurrentPage на home!
+        const handleTransitionEnd = () => {
+          page.style.transform = "";
+          page.style.filter = "";
+          home.style.filter = "";
+          home.style.opacity = "";
+          page.removeEventListener("transitionend", handleTransitionEnd);
+        };
+
         page.addEventListener("transitionend", handleTransitionEnd);
       }
 
       isSwiping.current = false;
       translateX.current = 0;
     };
+
 
     page.addEventListener("touchstart", handleTouchStart);
     page.addEventListener("touchmove", handleTouchMove);
