@@ -1,4 +1,5 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
 import operations from "../data/HistoryData";
 import "../styles/history.css";
 
@@ -9,6 +10,13 @@ export default function History() {
   const [isClosing, setIsClosing] = useState(false);
   const sheetRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
+
+  // Очистка стилей при размонтировании компонента
+  useEffect(() => {
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, []);
 
   const handleTouchStart = (e) => {
     setStartY(e.touches[0].clientY);
@@ -31,6 +39,8 @@ export default function History() {
     setIsClosing(true);
     setTranslateY(window.innerHeight); // уезжает вниз
     setIsVisible(false); // плавно убираем overlay
+    // Восстанавливаем прокрутку фона при закрытии модального окна
+    document.body.style.overflow = 'auto';
     setTimeout(() => {
       setSelected(null);
       setIsClosing(false);
@@ -42,6 +52,8 @@ export default function History() {
   const handleSelect = (op) => {
     setSelected(op);
     setIsVisible(true);
+    // Предотвращаем прокрутку фона при открытии модального окна
+    document.body.style.overflow = 'hidden';
   };
 
 
@@ -86,7 +98,7 @@ export default function History() {
         </div>
       ))}
 
-      {selected && (
+      {selected && createPortal(
         <div
           className={`bottom-sheet-overlay ${isVisible ? "show" : ""}`}
           onClick={handleOverlayClick}
@@ -128,7 +140,8 @@ export default function History() {
             <strong>Статус:</strong> {selected.status}
           </p>
         </div>
-      </div>
+      </div>,
+      document.body
     )}
     </div>
   );
