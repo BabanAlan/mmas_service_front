@@ -9,23 +9,6 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  /* Настройки для мобильного отображения */
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-/* Мобильный контейнер для десктопа */
-@media (min-width: 481px) {
-  body {
-    max-width: 375px;
-    margin: 20px auto;
-    border: 1px solid #ddd;
-    border-radius: 20px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    min-height: 667px;
-    height: 667px;
-    overflow: hidden;
-  }
 }
 
 .app-container {
@@ -35,45 +18,6 @@ body {
   background-color: #fff;
   border-radius: 20px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  /* Настройки для мобильного отображения */
-  min-height: calc(100vh - 140px);
-  box-sizing: border-box;
-}
-
-/* Мобильный контейнер для десктопа */
-@media (min-width: 481px) {
-  .app-container {
-    max-width: 100%;
-    margin: 0;
-    padding: 10px;
-    border-radius: 0;
-    box-shadow: none;
-    min-height: calc(100vh - 20px);
-    height: calc(100vh - 20px);
-    overflow-y: auto;
-  }
-}
-
-/* Дополнительные стили для мобильного отображения */
-html {
-  height: 100%;
-  overflow-x: hidden;
-}
-
-#root {
-  height: 100%;
-  min-height: 100vh;
-}
-
-/* Скрываем полосы прокрутки на мобильных устройствах */
-@media (max-width: 480px) {
-  body {
-    -webkit-overflow-scrolling: touch;
-  }
-  
-  .app-container {
-    -webkit-overflow-scrolling: touch;
-  }
 }
 
 /* .money-block {

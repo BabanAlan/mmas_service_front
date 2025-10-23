@@ -3,10 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>mmas_service</title>
     <script src="https://telegram.org/js/telegram-web-app.js?59">
       try {
@@ -18,19 +15,6 @@
         Telegram.WebApp.disableVerticalSwipes();
         Telegram.WebApp.BackButton.hide();
         Telegram.WebApp.MainButton.hide();
-        
-        // Настройки для мобильного отображения
-        Telegram.WebApp.expand();
-        Telegram.WebApp.enableClosingConfirmation();
-        
-        // Устанавливаем фиксированную ширину как у мобильного устройства
-        if (window.innerWidth > 480) {
-          document.body.style.maxWidth = '375px';
-          document.body.style.margin = '0 auto';
-          document.body.style.border = '1px solid #ccc';
-          document.body.style.borderRadius = '20px';
-          document.body.style.overflow = 'hidden';
-        }
       });
     </script>
   </head>
