@@ -1,9 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
-import operations from "../data/HistoryData";
 import "../styles/history.css";
 
-export default function History() {
+export default function History({ operations = [] }) {
   const [selected, setSelected] = useState(null);
   const [startY, setStartY] = useState(0);
   const [translateY, setTranslateY] = useState(0);

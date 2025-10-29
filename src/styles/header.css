@@ -1,0 +1,157 @@
+/* Top-right account switcher */
+.account-switcher {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 5;
+}
+
+.avatar-button {
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+
+.avatar-circle {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+.avatar-circle.small {
+  width: 28px;
+  height: 28px;
+  font-size: 12px;
+  box-shadow: none;
+}
+
+.account-menu {
+  position: absolute;
+  right: 0;
+  margin-top: 10px;
+  width: 260px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+  border: 1px solid rgba(0,0,0,0.06);
+  overflow: hidden;
+}
+
+.account-menu-header {
+  padding: 10px 12px;
+  font-weight: 700;
+  color: #1e293b;
+  background: #f8fafc;
+  border-bottom: 1px solid #eef2f7;
+}
+
+.account-list {
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.account-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 8px 8px 10px;
+}
+
+.account-item.active {
+  background: #f8fafc;
+}
+
+.account-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  padding: 6px 8px;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.account-row:hover {
+  background: #f2f6fb;
+}
+
+.account-name {
+  color: #0f172a;
+}
+
+.remove-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: none;
+  background: #f1f5f9;
+  color: #0f172a;
+  cursor: pointer;
+}
+
+.remove-btn:hover {
+  background: #e2e8f0;
+}
+
+.add-account {
+  width: 100%;
+  border: none;
+  border-top: 1px solid #eef2f7;
+  background: #fff;
+  padding: 10px 12px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.add-account:hover {
+  background: #f8fafc;
+}
+
+.add-form {
+  padding: 10px 12px 12px 12px;
+  border-top: 1px solid #eef2f7;
+}
+
+.add-form input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  outline: none;
+}
+
+.add-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.add-actions .cancel,
+.add-actions .save {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.add-actions .cancel {
+  background: #f1f5f9;
+}
+
+.add-actions .save {
+  background: #0ea5e9;
+  color: #fff;
+}
+
+

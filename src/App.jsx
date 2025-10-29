@@ -5,13 +5,38 @@ import HomeBlocks from "./components/HomeBlocks.jsx";
 import Services from "./pages/Services.jsx";
 import History from "./pages/History.jsx";
 import FAQ from "./pages/FAQ.jsx";
+import Login from "./pages/Login.jsx";
 import "./styles/main.css";
 import "./styles/animations.css";
+import AccountSwitcher from "./components/AccountSwitcher.jsx";
+import {
+  listAccounts as storeList,
+  getCurrentAccountId as storeCurrentId,
+  upsertAccount as storeUpsert,
+  selectAccount as storeSelect,
+  removeAccount as storeRemove,
+  snapshot as storeSnapshot,
+  getBalance as storeGetBalance,
+  adjustBalance as storeAdjustBalance,
+  addHistory as storeAddHistory,
+  listHistory as storeListHistory,
+} from "./lib/accountStore";
 
 export default function App({ tgInitialized }) {
-  const [balance, setBalance] = useState(1400);
-  const [currentPage, setCurrentPage] = useState("home");
+  const [balance, setBalance] = useState(0);
+  const [historyOps, setHistoryOps] = useState([]);
+  const [currentPage, setCurrentPage] = useState(() => {
+    try {
+      const rawAccs = localStorage.getItem("mmas.accounts");
+      const accs = rawAccs ? JSON.parse(rawAccs) : [];
+      const current = localStorage.getItem("mmas.currentAccountId");
+      if (!current || accs.length === 0) return "login";
+    } catch {}
+    return "home";
+  });
   const [tgReady, setTgReady] = useState(false);
+  const [accounts, setAccounts] = useState(() => storeList());
+  const [currentAccountId, setCurrentAccountId] = useState(() => storeCurrentId());
 
   // 👇 swipe control
   const startX = useRef(0);
@@ -40,6 +65,31 @@ export default function App({ tgInitialized }) {
       console.warn("⚠️ Telegram WebApp API не найден");
     }
   }, [tgInitialized, currentPage]);
+
+  // reflect store snapshot if changed elsewhere
+  useEffect(() => {
+    const snap = storeSnapshot();
+    if (snap.currentAccountId !== currentAccountId) setCurrentAccountId(snap.currentAccountId);
+    if (snap.accounts.length !== accounts.length) setAccounts(snap.accounts);
+  }, [currentAccountId, accounts.length]);
+
+  // load account-specific balance and history when account changes
+  useEffect(() => {
+    if (!currentAccountId) {
+      setBalance(0);
+      setHistoryOps([]);
+      return;
+    }
+    setBalance(storeGetBalance(currentAccountId));
+    setHistoryOps(storeListHistory(currentAccountId));
+  }, [currentAccountId]);
+
+  // force login on first run or when no account selected
+  useEffect(() => {
+    if (!currentAccountId || accounts.length === 0) {
+      setCurrentPage("login");
+    }
+  }, [accounts.length, currentAccountId]);
 
   // swipe to go back with blur
   useEffect(() => {
@@ -129,7 +179,22 @@ export default function App({ tgInitialized }) {
     };
   }, [currentPage]);
 
-  const handleDeposit = (amount) => setBalance(balance + Number(amount));
+  const formatDate = () => {
+    const d = new Date();
+    const dd = String(d.getDate()).padStart(2, "0");
+    const mm = String(d.getMonth() + 1).padStart(2, "0");
+    const yyyy = d.getFullYear();
+    return `${dd}.${mm}.${yyyy}`;
+  };
+
+  const handleDeposit = (amount) => {
+    if (!currentAccountId) return;
+    const next = storeAdjustBalance(currentAccountId, Number(amount));
+    setBalance(next);
+    const op = { type: "refill", title: "Пополнение", date: formatDate(), amount: Number(amount), status: "Зачислено" };
+    const list = storeAddHistory(currentAccountId, op);
+    setHistoryOps(list);
+  };
 
   const handlePurchase = (service) => {
     if (balance < service.price) {
@@ -137,15 +202,46 @@ export default function App({ tgInitialized }) {
       return;
     }
     alert(`Вы купили: ${service.name}`);
-    setBalance(balance - service.price);
+    if (!currentAccountId) return;
+    const next = storeAdjustBalance(currentAccountId, -service.price);
+    setBalance(next);
+    const op = { type: "purchase", title: service.name, date: formatDate(), amount: -service.price, status: "Оплачено" };
+    const list = storeAddHistory(currentAccountId, op);
+    setHistoryOps(list);
   };
 
   const renderPage = () => {
     switch (currentPage) {
+      case "login":
+        return (
+          <Login
+            onLogin={(login, password) => {
+              // fixed credentials
+              const valid = [
+                { login: "Araik", password: "Araik" },
+                { login: "Yan", password: "jaba" },
+                { login: "admin", password: "admin" },
+              ];
+              const match = valid.find(
+                (v) => v.login === login && v.password === password
+              );
+              if (!match) return { ok: false, error: "Неверный логин или пароль" };
+
+              // upsert/select into store using DB-like identifiers
+              const mmasId = `mmas:${match.login.toLowerCase()}`;
+              const { account } = storeUpsert({ mmasId, displayName: match.login });
+              const snap = storeSelect(account.id);
+              setAccounts(snap.accounts);
+              setCurrentAccountId(snap.currentAccountId);
+              setCurrentPage("home");
+              return { ok: true };
+            }}
+          />
+        );
       case "services":
         return <Services onPurchase={handlePurchase} />;
       case "history":
-        return <History />;
+        return <History operations={historyOps} />;
       case "faq":
         return <FAQ />;
       default:
@@ -155,6 +251,22 @@ export default function App({ tgInitialized }) {
 
   return (
     <div className="app-container">
+      <AccountSwitcher
+        accounts={accounts.map((a) => ({ id: a.id, name: a.displayName, color: a.color }))}
+        currentId={currentAccountId}
+        onSelect={(id) => {
+          const snap = storeSelect(id);
+          setAccounts(snap.accounts);
+          setCurrentAccountId(snap.currentAccountId);
+        }}
+        onRemove={(id) => {
+          const snap = storeRemove(id);
+          setAccounts(snap.accounts);
+          setCurrentAccountId(snap.currentAccountId);
+          if (!snap.currentAccountId) setCurrentPage("login");
+        }}
+        onAdd={() => setCurrentPage("login")}
+      />
       {/* Home-layer */}
       <div
         ref={homeRef}

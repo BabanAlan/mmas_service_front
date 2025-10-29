@@ -25,7 +25,7 @@ const services = [
 export default function Services({ onPurchase }) {
   return (
     <div className="services">
-      <h2>История операций</h2>
+      <h2>Абонементы и Мероприятия</h2>
       {services.map((s) => (
         <div key={s.id} className="service-card">
           
